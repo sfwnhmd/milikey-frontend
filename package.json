@@ -9,11 +9,20 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.6.0",
     "axios": "^0.21.1",
+    "chai": "^4.3.6",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.6.8",
+    "hardhat": "^2.9.9",
+    "ipfs-http-client": "^57.0.1",
     "next": "^12.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "swr": "^1.2.2",
+    "web3modal": "^1.9.8",
     "webpack": "^5.73.0"
   },
   "devDependencies": {

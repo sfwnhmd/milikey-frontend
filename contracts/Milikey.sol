@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "hardhat/console.sol";
+
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -12,7 +14,7 @@ contract Milikey is ERC721URIStorage {
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
 
-    uint256 listingPrice = 0.025 ether;
+    uint256 listingPrice = 0 ether;
     address payable owner;
 
     mapping(uint256 => Item) private idToItem;
@@ -66,7 +68,7 @@ contract Milikey is ERC721URIStorage {
       require(price > 0, "Price must be at least 1 wei");
       require(msg.value == listingPrice, "Price must be equal to listing price");
 
-      idToItem[tokenId] =  Item(
+      idToItem[tokenId] = Item(
         tokenId,
         payable(msg.sender),
         payable(address(this)),
@@ -115,7 +117,7 @@ contract Milikey is ERC721URIStorage {
     }
 
     /* Returns all unsold market items */
-    function fetchMarketItems() public view returns (Item[] memory) {
+    function fetchItems() public view returns (Item[] memory) {
       uint itemCount = _tokenIds.current();
       uint unsoldItemCount = _tokenIds.current() - _itemsSold.current();
       uint currentIndex = 0;
@@ -179,4 +181,17 @@ contract Milikey is ERC721URIStorage {
       }
       return items;
     }
+
+    function fetchItems2(uint a) public view returns (Item[] memory){
+      Item[] memory items = new Item[](1);
+      Item storage currentItem = idToItem[a];
+      items[0] = currentItem;
+
+      if(idToItem[a].tokenId < 0){
+        revert('The nft doesnt existed!');
+      } else {
+        return items;
+      }
+    }
+    
 }

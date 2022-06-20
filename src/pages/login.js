@@ -1,5 +1,5 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
+import Center from '@/components/Center'
 import AuthSessionStatus from '@/components/AuthSessionStatus'
 import AuthValidationErrors from '@/components/AuthValidationErrors'
 import Button from '@/components/Button'
@@ -7,6 +7,8 @@ import GuestLayout from '@/components/Layouts/GuestLayout'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import Link from 'next/link'
+import logo from '../../public/images/milikey_icon.svg'
+import Image from 'next/image'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -40,11 +42,15 @@ const Login = () => {
 
     return (
         <GuestLayout>
-            <AuthCard
+            <Center
                 logo={
                     <Link href="/">
                         <a>
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                        <Image
+                                src={logo}
+                                width={120}
+                                height={120}
+                            />
                         </a>
                     </Link>
                 }>
@@ -86,35 +92,21 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Remember Me */}
-                    <div className="block mt-4">
-                        <label
-                            htmlFor="remember_me"
-                            className="inline-flex items-center">
-                            <input
-                                id="remember_me"
-                                type="checkbox"
-                                name="remember"
-                                className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            />
-
-                            <span className="ml-2 text-sm text-gray-600">
-                                Remember me
-                            </span>
-                        </label>
-                    </div>
-
                     <div className="flex items-center justify-end mt-4">
-                        <Link href="/forgot-password">
-                            <a className="underline text-sm text-gray-600 hover:text-gray-900">
-                                Forgot your password?
-                            </a>
-                        </Link>
-
                         <Button className="ml-3">Login</Button>
                     </div>
                 </form>
-            </AuthCard>
+                {/* Navigate to registe */}
+                <div className='justify-center text-center pt-6'>
+                <p className='text-sm'>Dont have an account?
+                <Link href="/register">
+                    <a className="ml-2 text-sm font-bold text-gray-700 underline">
+                        Register now
+                    </a>
+                </Link>
+                </p>
+                </div>
+            </Center>
         </GuestLayout>
     )
 }

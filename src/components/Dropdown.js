@@ -4,7 +4,7 @@ import { Menu, Transition } from '@headlessui/react'
 const Dropdown = ({
     align = 'right',
     width = 48,
-    contentClasses = 'py-1 bg-white',
+    contentClasses = 'py-2 px-2 bg-white',
     trigger,
     children,
 }) => {

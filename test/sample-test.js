@@ -27,7 +27,7 @@ describe("Milikey", function() {
     await milikey.connect(buyerAddress).resellToken(1, auctionPrice, { value: listingPrice })
 
     /* query for and return the unsold items */
-    items = await milikey.fetchMarketItems()
+    items = await milikey.fetchItems()
     items = await Promise.all(items.map(async i => {
       const tokenUri = await milikey.tokenURI(i.tokenId)
       let item = {

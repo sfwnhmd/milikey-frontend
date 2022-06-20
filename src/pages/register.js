@@ -1,11 +1,13 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
-import AuthCard from '@/components/AuthCard'
+import Center from '@/components/Center'
 import AuthValidationErrors from '@/components/AuthValidationErrors'
 import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
 import Input from '@/components/Input'
 import Label from '@/components/Label'
 import Link from 'next/link'
+import logo from '../../public/images/milikey_icon.svg'
+import Image from 'next/image'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
 
@@ -29,11 +31,15 @@ const Register = () => {
 
     return (
         <GuestLayout>
-            <AuthCard
+            <Center
                 logo={
                     <Link href="/">
                         <a>
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                            <Image
+                                src={logo}
+                                width={120}
+                                height={120}
+                            />
                         </a>
                     </Link>
                 }>
@@ -104,16 +110,20 @@ const Register = () => {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Link href="/login">
-                            <a className="underline text-sm text-gray-600 hover:text-gray-900">
-                                Already registered?
-                            </a>
-                        </Link>
-
                         <Button className="ml-4">Register</Button>
                     </div>
                 </form>
-            </AuthCard>
+                {/* Navigate to registe */}
+                <div className='justify-center text-center pt-6'>
+                <p className='text-sm'>Already have an account?
+                <Link href="/login">
+                    <a className="ml-2 text-sm font-bold text-gray-700 underline">
+                        Login now
+                    </a>
+                </Link>
+                </p>
+                </div>
+            </Center>
         </GuestLayout>
     )
 }

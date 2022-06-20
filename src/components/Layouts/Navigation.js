@@ -6,17 +6,65 @@ import ResponsiveNavLink, { ResponsiveNavButton } from '@/components/ResponsiveN
 import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import logo from '../../../public/images/milikey_icon.svg'
+import Image from 'next/image'
+import { ethers } from 'ethers'
+import truncateEthAddress from 'truncate-eth-address'
+import Web3Modal from 'web3modal'
 
 const Navigation = ({ user }) => {
     const router = useRouter()
-
     const { logout } = useAuth()
 
     const [open, setOpen] = useState(false)
+    const [address, setAddress] = useState([])
+    const [address2, setAddress2] = useState([])
+    const [signer, setSigner] = useState([])
+
+    let getUserObj = {...user}
+    const getUserETH = String(getUserObj.eth_address)
+            
+    useEffect( () =>{
+        checkIfWalletIsConnected();
+      }, [])
+    
+      async function checkIfWalletIsConnected() {
+        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        let accounts = await provider.send("eth_requestAccounts", []);
+        let account = accounts[0];
+        provider.on('accountsChanged', function (accounts) {
+            account = accounts[0];
+           // console.log(address); // Print new address
+          });
+          
+          if(account.toUpperCase() == getUserETH.toUpperCase()){
+          const signer = provider.getSigner();
+
+          
+          setSigner(signer)
+          
+          const address = await signer.getAddress();
+          const address2 = await signer.getAddress();
+          
+          setAddress2(address)
+          setAddress(truncateEthAddress(address))
+          } else{
+            alert('Wrong wallet! Please only use your registered wallet only.')
+          }
+        } 
+
+
+      
+
+
+      const isMetaMaskConnected = async () => {
+        const accounts = await provider.listAccounts();
+        return accounts.length > 0;
+    }
 
     return (
-        <nav className="bg-white border-b border-gray-100">
+        <nav className="fixed left-0 right-0 bg-white border-b border-gray-100">
             {/* Primary Navigation Menu */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
@@ -25,7 +73,11 @@ const Navigation = ({ user }) => {
                         <div className="flex-shrink-0 flex items-center">
                             <Link href="/dashboard">
                                 <a>
-                                    <ApplicationLogo className="block h-10 w-auto fill-current text-gray-600" />
+                                <Image
+                                    src={logo}
+                                    width={50}
+                                    height={50}
+                                />
                                 </a>
                             </Link>
                         </div>
@@ -37,8 +89,19 @@ const Navigation = ({ user }) => {
                                 active={router.pathname === '/dashboard'}>
                                 Dashboard
                             </NavLink>
+                            <NavLink
+                                href="/products"
+                                active={router.pathname === '/products'}>
+                                Products
+                            </NavLink>
+                            <NavLink
+                                href="/create"
+                                active={router.pathname === '/create'}>
+                                Create
+                            </NavLink>
                         </div>
                     </div>
+
 
                     {/* Settings Dropdown */}
                     <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -65,6 +128,16 @@ const Navigation = ({ user }) => {
                             }>
 
                             {/* Authentication */}
+                            {signer.length == 0 ? (
+                            <DropdownButton onClick={checkIfWalletIsConnected}>
+                                <p className='font-bold'>🦊 Connect Wallet</p>
+                            </DropdownButton>
+                            ):( 
+                            <DropdownButton>
+                                <p className='text-xs'>Your account</p>
+                                <p className='font-bold'>{address}</p>
+                            </DropdownButton>
+                            )}       
                             <DropdownButton onClick={logout}>
                                 Logout
                             </DropdownButton>

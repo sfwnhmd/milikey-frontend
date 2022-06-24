@@ -83,22 +83,39 @@ const Navigation = ({ user }) => {
                         </div>
 
                         {/* Navigation Links */}
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <div className="hidden mx-auto justify-center align-center space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <NavLink
                                 href="/dashboard"
                                 active={router.pathname === '/dashboard'}>
                                 Dashboard
                             </NavLink>
+                            {user?.role == 'admin' ? 
+                            <>
                             <NavLink
                                 href="/products"
                                 active={router.pathname === '/products'}>
-                                Products
+                                Product
                             </NavLink>
                             <NavLink
-                                href="/create"
-                                active={router.pathname === '/create'}>
-                                Create
+                                href="/staffs"
+                                active={router.pathname === '/staffs'}>
+                                Staff
                             </NavLink>
+                            </>
+                            :
+                            <>
+                            <NavLink
+                                href="/collection"
+                                active={router.pathname === '/collection'}>
+                                Collection
+                            </NavLink>
+                            <NavLink
+                                href="/verify-item"
+                                active={router.pathname === '/verify-item'}>
+                                Verify Item
+                            </NavLink>
+                            </>
+                            }
                         </div>
                     </div>
 

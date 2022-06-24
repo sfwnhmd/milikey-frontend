@@ -12,6 +12,7 @@ import Milikey from '../../artifacts/contracts/Milikey.sol/Milikey.json'
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
+  
   useEffect(() => {
     loadNFTs()
   }, [])
@@ -28,12 +29,10 @@ export default function Home() {
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await contract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
-        price,
         tokenId: i.tokenId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
+        current_owner: i.current_owner,
+        new_owner: i.new_owner,
         image: meta.data.image,
         name: meta.data.name,
         description: meta.data.description,
@@ -52,13 +51,12 @@ export default function Home() {
     const contract = new ethers.Contract(milikeyAddress, Milikey.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
-    const transaction = await contract.createMarketSale(nft.tokenId, {
-      value: price
+    const transaction = await contract.claimOwnership(nft.tokenId, {
     })
     await transaction.wait()
     loadNFTs()
   }
+
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>)
   return (
     <div className="flex justify-center">
@@ -75,7 +73,6 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">{nft.price} ETH</p>
                   <button className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                 </div>
               </div>

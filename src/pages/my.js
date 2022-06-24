@@ -32,14 +32,15 @@ export default function MyAssets() {
     const items = await Promise.all(data.map(async i => {
       const tokenURI = await marketplaceContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenURI)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
-        price,
         tokenId: i.tokenId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
+        current_owner: i.current_owner,
+        new_owner: i.new_owner,
         image: meta.data.image,
-        tokenURI
+        name: meta.data.name,
+        description: meta.data.description,
+        itemId: meta.data.item_id,
+        size: meta.data.size
       }
       return item
     }))
@@ -59,8 +60,12 @@ export default function MyAssets() {
             nfts.map((nft, i) => (
               <div key={i} className="border shadow rounded-xl overflow-hidden">
                 <img src={nft.image} className="rounded" />
+                <p>NAME: {nft.tokenId}</p>
+                <p>NAME: {nft.itemId}</p>
+                <p>NAME: {nft.name}</p>
+                <p>NAME: {nft.description}</p>
+                <p>NAME: {nft.size}</p>
                 <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
                   <button className="mt-4 w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => listNFT(nft)}>List</button>
                 </div>
               </div>

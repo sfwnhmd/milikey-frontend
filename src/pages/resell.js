@@ -11,10 +11,10 @@ import {
 import Milikey from '../../artifacts/contracts/Milikey.sol/Milikey.json'
 
 export default function ResellNFT() {
-  const [formInput, updateFormInput] = useState({ price: '', image: '' })
+  const [formInput, updateFormInput] = useState({ image: '' })
   const router = useRouter()
   const { id, tokenURI } = router.query
-  const { image, price } = formInput
+  const { image } = formInput
 
   useEffect(() => {
     fetchNFT()
@@ -27,31 +27,22 @@ export default function ResellNFT() {
   }
 
   async function listNFTForSale() {
-    if (!price) return
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
-    const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
     let contract = new ethers.Contract(milikeyAddress, Milikey.abi, signer)
-    let listingPrice = await contract.getListingPrice()
 
-    listingPrice = listingPrice.toString()
-    let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
+    let transaction = await contract.letGoOwnership(id)
     await transaction.wait()
    
-    router.push('/')
+    router.push('/products')
   }
 
   return (
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
-        <input
-          placeholder="Asset Price in Eth"
-          className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-        />
         {
           image && (
             <img className="rounded mt-4" width="350" src={image} />

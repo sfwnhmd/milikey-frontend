@@ -2,12 +2,15 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 import Dropdown from '@/components/Dropdown'
 import Link from 'next/link'
 import NavLink from '@/components/NavLink'
-import ResponsiveNavLink, { ResponsiveNavButton } from '@/components/ResponsiveNavLink'
+import ResponsiveNavLink, {
+    ResponsiveNavButton,
+} from '@/components/ResponsiveNavLink'
 import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import logo from '../../../public/images/milikey_icon.svg'
+import logoFull from '../../../public/images/milikey_logo.svg'
 import Image from 'next/image'
 import { ethers } from 'ethers'
 import truncateEthAddress from 'truncate-eth-address'
@@ -22,103 +25,109 @@ const Navigation = ({ user }) => {
     const [address2, setAddress2] = useState([])
     const [signer, setSigner] = useState([])
 
-    let getUserObj = {...user}
+    let getUserObj = { ...user }
     const getUserETH = String(getUserObj.eth_address)
-            
-    useEffect( () =>{
-        checkIfWalletIsConnected();
-      }, [])
-    
-      async function checkIfWalletIsConnected() {
-        const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-        let accounts = await provider.send("eth_requestAccounts", []);
-        let account = accounts[0];
+
+    useEffect(() => {
+        checkIfWalletIsConnected()
+    }, [])
+
+    async function checkIfWalletIsConnected() {
+        const provider = new ethers.providers.Web3Provider(
+            window.ethereum,
+            'any',
+        )
+        let accounts = await provider.send('eth_requestAccounts', [])
+        let account = accounts[0]
         provider.on('accountsChanged', function (accounts) {
-            account = accounts[0];
-           // console.log(address); // Print new address
-          });
-          
-          if(account.toUpperCase() == getUserETH.toUpperCase()){
-          const signer = provider.getSigner();
+            account = accounts[0]
+            // console.log(address); // Print new address
+        })
 
-          
-          setSigner(signer)
-          
-          const address = await signer.getAddress();
-          const address2 = await signer.getAddress();
-          
-          setAddress2(address)
-          setAddress(truncateEthAddress(address))
-          } else{
+        if (account.toUpperCase() == getUserETH.toUpperCase()) {
+            const signer = provider.getSigner()
+
+            setSigner(signer)
+
+            const address = await signer.getAddress()
+            const address2 = await signer.getAddress()
+
+            setAddress2(address)
+            setAddress(truncateEthAddress(address))
+        } else {
             alert('Wrong wallet! Please only use your registered wallet only.')
-          }
-        } 
+        }
+    }
 
-
-      
-
-
-      const isMetaMaskConnected = async () => {
-        const accounts = await provider.listAccounts();
-        return accounts.length > 0;
+    const isMetaMaskConnected = async () => {
+        const accounts = await provider.listAccounts()
+        return accounts.length > 0
     }
 
     return (
         <nav className="fixed left-0 right-0 bg-white border-b border-gray-100">
             {/* Primary Navigation Menu */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         {/* Logo */}
-                        <div className="flex-shrink-0 flex items-center">
+                        <div className="flex items-center flex-shrink-0 pt-1.5 visible sm:invisible">
                             <Link href="/dashboard">
                                 <a>
-                                <Image
-                                    src={logo}
-                                    width={50}
-                                    height={50}
-                                />
+                                    <Image src={logo} width={50} height={50} />
                                 </a>
                             </Link>
                         </div>
 
+                        <div className="hidden sm:flex items-center flex-shrink-0 pt-1.5">
+                            <Link href="/dashboard">
+                                <a>
+                                    <Image src={logoFull} width={150} height={50} />
+                                </a>
+                            </Link>
+                        </div>
                         {/* Navigation Links */}
-                        <div className="hidden mx-auto justify-center align-center space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <div className="justify-center hidden mx-auto align-center space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <NavLink
                                 href="/dashboard"
                                 active={router.pathname === '/dashboard'}>
                                 Dashboard
                             </NavLink>
-                            {user?.role == 'admin' ? 
-                            <>
-                            <NavLink
-                                href="/products"
-                                active={router.pathname === '/products'}>
-                                Product
-                            </NavLink>
-                            <NavLink
-                                href="/staffs"
-                                active={router.pathname === '/staffs'}>
-                                Staff
-                            </NavLink>
-                            </>
-                            :
-                            <>
-                            <NavLink
-                                href="/collection"
-                                active={router.pathname === '/collection'}>
-                                Collection
-                            </NavLink>
-                            <NavLink
-                                href="/verify-item"
-                                active={router.pathname === '/verify-item'}>
-                                Verify Item
-                            </NavLink>
-                            </>
-                            }
+                            {user?.role == 'admin' ? (
+                                <>
+                                    <NavLink
+                                        href="/products"
+                                        active={
+                                            router.pathname === '/products'
+                                        }>
+                                        Product
+                                    </NavLink>
+                                    <NavLink
+                                        href="/staffs"
+                                        active={router.pathname === '/staffs'}>
+                                        Staff
+                                    </NavLink>
+                                </>
+                            ) : (
+                                <>
+                                    <NavLink
+                                        href="/collection"
+                                        active={
+                                            router.pathname === '/collection'
+                                        }>
+                                        Collection
+                                    </NavLink>
+                                    <NavLink
+                                        href="/verify-item"
+                                        active={
+                                            router.pathname === '/verify-item'
+                                        }>
+                                        Verify Item
+                                    </NavLink>
+                                </>
+                            )}
                         </div>
                     </div>
-
 
                     {/* Settings Dropdown */}
                     <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -131,7 +140,7 @@ const Navigation = ({ user }) => {
 
                                     <div className="ml-1">
                                         <svg
-                                            className="fill-current h-4 w-4"
+                                            className="w-4 h-4 fill-current"
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20">
                                             <path
@@ -143,18 +152,20 @@ const Navigation = ({ user }) => {
                                     </div>
                                 </button>
                             }>
-
                             {/* Authentication */}
                             {signer.length == 0 ? (
-                            <DropdownButton onClick={checkIfWalletIsConnected}>
-                                <p className='font-bold'>🦊 Connect Wallet</p>
-                            </DropdownButton>
-                            ):( 
-                            <DropdownButton>
-                                <p className='text-xs'>Your account</p>
-                                <p className='font-bold'>{address}</p>
-                            </DropdownButton>
-                            )}       
+                                <DropdownButton
+                                    onClick={checkIfWalletIsConnected}>
+                                    <p className="font-bold">
+                                        🦊 Connect Wallet
+                                    </p>
+                                </DropdownButton>
+                            ) : (
+                                <DropdownButton>
+                                    <p className="text-xs">Your account</p>
+                                    <p className="font-bold">{address}</p>
+                                </DropdownButton>
+                            )}
                             <DropdownButton onClick={logout}>
                                 Logout
                             </DropdownButton>
@@ -162,12 +173,12 @@ const Navigation = ({ user }) => {
                     </div>
 
                     {/* Hamburger */}
-                    <div className="-mr-2 flex items-center sm:hidden">
+                    <div className="flex items-center -mr-2 sm:hidden">
                         <button
                             onClick={() => setOpen(open => !open)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                             <svg
-                                className="h-6 w-6"
+                                className="w-6 h-6"
                                 stroke="currentColor"
                                 fill="none"
                                 viewBox="0 0 24 24">
@@ -210,7 +221,7 @@ const Navigation = ({ user }) => {
                         <div className="flex items-center px-4">
                             <div className="flex-shrink-0">
                                 <svg
-                                    className="h-10 w-10 fill-current text-gray-400"
+                                    className="w-10 h-10 text-gray-400 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -225,10 +236,10 @@ const Navigation = ({ user }) => {
                             </div>
 
                             <div className="ml-3">
-                                <div className="font-medium text-base text-gray-800">
+                                <div className="text-base font-medium text-gray-800">
                                     {user?.name}
                                 </div>
-                                <div className="font-medium text-sm text-gray-500">
+                                <div className="text-sm font-medium text-gray-500">
                                     {user?.email}
                                 </div>
                             </div>

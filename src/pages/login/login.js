@@ -7,7 +7,7 @@ import GuestLayout from '@/components/Layouts/GuestLayout'
 import Input from '@/components/Input/Input'
 import Label from '@/components/Label'
 import Link from 'next/link'
-import logo from '../../../public/images/milikey_icon.svg'
+import logo from '../../../public/images/logo.png'
 import Image from 'next/image'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
@@ -48,8 +48,8 @@ const Login = () => {
                         <a>
                         <Image
                                 src={logo}
-                                width={120}
-                                height={120}
+                                width={250}
+                                height={59}
                             />
                         </a>
                     </Link>

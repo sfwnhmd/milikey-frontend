@@ -137,7 +137,7 @@ const Item = () => {
         }
 
         // getHistory(item.id)
-        setLoadingState('loaded')
+        //setLoadingState('loaded')
     }
 
     console.log(nfts)

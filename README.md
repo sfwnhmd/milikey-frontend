@@ -1,15 +1,3 @@
-# Basic Sample Hardhat Project
+# WIP: MiliKey: Product Ownership Management System using Blockchain Technology
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+MiliKey is a web applications that help consumers to verify the product authenticity based on the products' ownership on the blockchain network. Besides, the system also help the merchants to track and trace the items inventory.

@@ -58,13 +58,13 @@ const Register = () => {
             <Center
                 logo={
                     <Link href="/">
-                        <a>
-                            <Image
-                                src={logo}
-                                width={120}
-                                height={120}
-                            />
-                        </a>
+
+                        <Image
+                            src={logo}
+                            width={120}
+                            height={120}
+                        />
+
                     </Link>
                 }>
                 {/* Validation Errors */}
@@ -270,16 +270,16 @@ const Register = () => {
                 {/* Navigate to registe */}
                 <div className='justify-center pt-6 text-center'>
                 <p className='text-sm'>Already have an account?
-                <Link href="/login">
-                    <a className="ml-2 text-sm font-bold text-gray-700 underline">
+                <Link href="/login" className="ml-2 text-sm font-bold text-gray-700 underline">
+                    
                         Login now
-                    </a>
+                    
                 </Link>
                 </p>
                 </div>
             </Center>
         </GuestLayout>
-    )
+    );
 }
 
 export default Register

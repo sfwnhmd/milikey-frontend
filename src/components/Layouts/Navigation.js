@@ -73,17 +73,17 @@ const Navigation = ({ user }) => {
                         {/* Logo */}
                         <div className="flex items-center flex-shrink-0 pt-1.5 visible sm:invisible">
                             <Link href="/dashboard">
-                                <a>
-                                    <Image src={logo} width={50} height={50} />
-                                </a>
+
+                                <Image src={logo} width={50} height={50} />
+
                             </Link>
                         </div>
 
                         <div className="hidden sm:flex items-center flex-shrink-0 pt-1.5">
                             <Link href="/dashboard">
-                                <a>
-                                    <Image src={logoFull} width={150} height={50} />
-                                </a>
+
+                                <Image src={logoFull} width={150} height={50} />
+
                             </Link>
                         </div>
                         {/* Navigation Links */}
@@ -255,7 +255,7 @@ const Navigation = ({ user }) => {
                 </div>
             )}
         </nav>
-    )
+    );
 }
 
 export default Navigation

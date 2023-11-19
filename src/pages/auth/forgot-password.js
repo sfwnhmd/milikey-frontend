@@ -28,9 +28,9 @@ const ForgotPassword = () => {
             <AuthCard
                 logo={
                     <Link href="/">
-                        <a>
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                        </a>
+
+                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+
                     </Link>
                 }>
 
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
                 </form>
             </AuthCard>
         </GuestLayout>
-    )
+    );
 }
 
 export default ForgotPassword

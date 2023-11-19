@@ -202,7 +202,7 @@ function Items() {
             {items.map(item => (
                 <div className='grid grid-cols-2 mb-6' key={item.id}>
                   {item.status == 1 ?
-                    <Link href={`http://localhost:3000/items/${item.id}`}>
+                    <Link href={`http://localhost:3000/items/${item.id}`} legacyBehavior>
                       <h1
                         className='text-5xl font-black'
                       >
@@ -240,7 +240,7 @@ function Items() {
             ))}
             </Center>
         </AppLayout>
-    )
+    );
 }
 
 export default Items

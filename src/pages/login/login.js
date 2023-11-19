@@ -45,13 +45,13 @@ const Login = () => {
             <Center
                 logo={
                     <Link href="/">
-                        <a>
+
                         <Image
                                 src={logo}
                                 width={250}
                                 height={59}
                             />
-                        </a>
+
                     </Link>
                 }>
 
@@ -100,16 +100,18 @@ const Login = () => {
                 {/* Navigate to registe */}
                 <div className='justify-center pt-6 text-center'>
                 <p className='text-sm'>Dont have an account?
-                <Link href="/register">
-                    <a className="ml-2 text-sm font-bold text-gray-700 underline">
+                <Link
+                    href="/register"
+                    className="ml-2 text-sm font-bold text-gray-700 underline">
+                    
                         Register now
-                    </a>
+                    
                 </Link>
                 </p>
                 </div>
             </Center>
         </GuestLayout>
-    )
+    );
 }
 
 export default Login
